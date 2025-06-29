@@ -9,22 +9,25 @@
 </head>
 <body>
 
-  <!-- Image de fond visible -->
   <div class="bg-image"></div>
 
-  <!-- Carte centrale -->
   <div class="card">
     <h1>@Worlcat</h1>
     <p>Bienvenue dans mon univers</p>
+
     <div class="links">
-      <a href="https://instagram.com/toncompte" target="_blank">Instagram</a>
-      <a href="https://discord.gg/tonserveur" target="_blank">Discord</a>
-      <a href="https://youtube.com/@tonchaine" target="_blank">YouTube</a>
-      <a href="https://x.com/tonpseudo" target="_blank">X / Twitter</a>
+      <a href="https://instagram.com/toncompte" target="_blank">📸 Instagram</a>
+      <a href="https://discord.gg/tonserveur" target="_blank">💬 Discord</a>
+      <a href="https://youtube.com/@tonchaine" target="_blank">🎥 YouTube</a>
+      <a href="https://x.com/tonpseudo" target="_blank">🐦 X / Twitter</a>
+    </div>
+
+    <div class="audio-controls">
+      <button id="toggleMusic">🔇 Activer</button>
+      <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" />
     </div>
   </div>
 
-  <!-- Musique de fond -->
   <audio id="bg-music" autoplay loop muted>
     <source src="Audio/musique.mp3" type="audio/mp3" />
     Ton navigateur ne supporte pas l'audio.
@@ -32,10 +35,32 @@
 
   <script>
     const music = document.getElementById('bg-music');
+    const toggleBtn = document.getElementById('toggleMusic');
+    const volumeSlider = document.getElementById('volumeSlider');
+
     window.addEventListener('click', () => {
-      music.muted = false;
-      music.play().catch(() => {});
+      if (music.muted) {
+        music.muted = false;
+        music.play().catch(() => {});
+        toggleBtn.textContent = '🔊 Pause';
+      }
+    }, { once: true });
+
+    toggleBtn.addEventListener('click', () => {
+      if (music.paused) {
+        music.play();
+        toggleBtn.textContent = '🔊 Pause';
+      } else {
+        music.pause();
+        toggleBtn.textContent = '🔇 Lecture';
+      }
     });
+
+    volumeSlider.addEventListener('input', () => {
+      music.volume = volumeSlider.value;
+    });
+
+    music.volume = 0.5;
   </script>
 
 </body>
