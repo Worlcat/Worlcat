@@ -9,7 +9,7 @@
 </head>
 <body>
 
-  <!-- Image de fond -->
+  <!-- Image de fond visible -->
   <div class="bg-image"></div>
 
   <!-- Carte centrale -->
@@ -30,12 +30,11 @@
     Ton navigateur ne supporte pas l'audio.
   </audio>
 
-  <!-- Script pour autoriser la lecture après clic -->
   <script>
     const music = document.getElementById('bg-music');
     window.addEventListener('click', () => {
       music.muted = false;
-      music.play().catch(() => {}); // ignore les erreurs silencieuses
+      music.play().catch(() => {});
     });
   </script>
 
