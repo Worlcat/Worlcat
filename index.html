@@ -29,88 +29,82 @@
   </div>
 
   <canvas id="equalizer"></canvas>
+
   <audio id="bg-music" autoplay loop muted>
     <source src="Audio/musique.mp3" type="audio/mp3" />
     Ton navigateur ne supporte pas l'audio.
   </audio>
 
-<script>
-  const music = document.getElementById('bg-music');
-  const toggleBtn = document.getElementById('toggleMusic');
-  const volumeSlider = document.getElementById('volumeSlider');
+  <script>
+    const music = document.getElementById('bg-music');
+    const toggleBtn = document.getElementById('toggleMusic');
+    const volumeSlider = document.getElementById('volumeSlider');
 
-  window.addEventListener('click', () => {
-    if (music.muted) {
-      music.muted = false;
-      music.play().catch(() => {});
-      toggleBtn.textContent = '🔊 Pause';
+    let audioCtx, analyser, source, dataArray, bufferLength;
+
+    music.volume = 0.5;
+
+    function initEqualizer() {
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      analyser = audioCtx.createAnalyser();
+      source = audioCtx.createMediaElementSource(music);
+      source.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      analyser.fftSize = 64;
+
+      bufferLength = analyser.frequencyBinCount;
+      dataArray = new Uint8Array(bufferLength);
+
+      draw();
     }
-  }, { once: true });
 
-  toggleBtn.addEventListener('click', () => {
-    if (music.paused) {
-      music.play();
-      toggleBtn.textContent = '🔊 Pause';
-    } else {
-      music.pause();
-      toggleBtn.textContent = '🔇 Lecture';
+    function draw() {
+      const canvas = document.getElementById('equalizer');
+      const ctx = canvas.getContext('2d');
+
+      canvas.width = window.innerWidth;
+      canvas.height = 150;
+
+      requestAnimationFrame(draw);
+      analyser.getByteFrequencyData(dataArray);
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      const barWidth = canvas.width / bufferLength;
+
+      dataArray.forEach((value, i) => {
+        const barHeight = value;
+        const x = i * barWidth;
+        const hue = 180 + i * 3;
+        ctx.fillStyle = `hsl(${hue}, 100%, 60%)`;
+        ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
+      });
     }
-  });
 
-  volumeSlider.addEventListener('input', () => {
-    music.volume = volumeSlider.value;
-  });
+    window.addEventListener('click', () => {
+      if (music.muted) {
+        music.muted = false;
+        music.play().then(() => {
+          if (!audioCtx) initEqualizer();
+          toggleBtn.textContent = '🔊 Pause';
+        }).catch(() => {});
+      }
+    }, { once: true });
 
-  music.volume = 0.5;
-
-  const canvas = document.getElementById('equalizer');
-  const ctx = canvas.getContext('2d');
-
-  let audioCtx;
-  let analyser;
-  let source;
-  let dataArray;
-  let bufferLength;
-
-  function initEqualizer() {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioCtx.createAnalyser();
-    source = audioCtx.createMediaElementSource(music);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
-    analyser.fftSize = 64;
-
-    bufferLength = analyser.frequencyBinCount;
-    dataArray = new Uint8Array(bufferLength);
-
-    draw();
-  }
-
-  function draw() {
-    requestAnimationFrame(draw);
-    analyser.getByteFrequencyData(dataArray);
-
-    canvas.width = window.innerWidth;
-    canvas.height = 150;
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const barWidth = canvas.width / bufferLength;
-    
-    dataArray.forEach((value, i) => {
-      const barHeight = value;
-      const x = i * barWidth;
-      const hue = 180 + i * 3;
-      ctx.fillStyle = `hsl(${hue}, 100%, 60%)`;
-      ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
+    toggleBtn.addEventListener('click', () => {
+      if (music.paused) {
+        music.play();
+        toggleBtn.textContent = '🔊 Pause';
+      } else {
+        music.pause();
+        toggleBtn.textContent = '🔇 Lecture';
+      }
     });
-  }
 
-  window.addEventListener('click', () => {
-    if (!audioCtx) {
-      initEqualizer();
-    }
-  }, { once: true });
-</script>
+    volumeSlider.addEventListener('input', () => {
+      music.volume = volumeSlider.value;
+    });
+  </script>
 
 </body>
 </html>

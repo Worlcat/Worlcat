@@ -9,9 +9,9 @@ html, body {
   font-family: 'Orbitron', sans-serif;
   overflow: hidden;
   color: white;
+  background: black;
 }
 
-/* Image de fond pleinement visible */
 .bg-image {
   background-image: url('Vidéos/video.jpg');
   background-size: cover;
@@ -23,13 +23,11 @@ html, body {
   animation: zoom 30s infinite alternate ease-in-out;
 }
 
-/* Animation de fond */
 @keyframes zoom {
   0% { transform: scale(1); }
   100% { transform: scale(1.05); }
 }
 
-/* Carte centrale */
 .card {
   position: absolute;
   top: 50%;
@@ -80,6 +78,7 @@ html, body {
   padding: 12px;
   transition: 0.3s ease;
   backdrop-filter: blur(10px);
+  font-size: 1.1em;
 }
 
 .links a:hover {
@@ -87,17 +86,16 @@ html, body {
   transform: scale(1.05);
 }
 
-/* Contrôles audio */
 .audio-controls {
-  margin-top: 20px;
+  margin-top: 25px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
   align-items: center;
+  gap: 12px;
 }
 
 .audio-controls button {
-  padding: 10px 20px;
+  padding: 10px 25px;
   font-size: 1em;
   border-radius: 30px;
   border: none;
@@ -110,6 +108,7 @@ html, body {
 
 .audio-controls button:hover {
   background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05);
 }
 
 .audio-controls input[type="range"] {
@@ -120,6 +119,27 @@ html, body {
   border-radius: 5px;
   background: rgba(255, 255, 255, 0.4);
   outline: none;
+  transition: background 0.3s;
+}
+
+.audio-controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.8);
+  transition: background 0.3s;
+}
+
+.audio-controls input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #ffffff;
+  cursor: pointer;
 }
 
 #equalizer {
