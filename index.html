@@ -75,11 +75,14 @@
       dataArray.forEach((value, i) => {
         const barHeight = value;
         const x = i * barWidth;
-        const hue = 180 + i * 3;
-        ctx.fillStyle = `hsl(${hue}, 100%, 60%)`;
-        ctx.fillRect(x, canvas.height - barHeight, barWidth - 2, barHeight);
+
+        const red = Math.min(255, value + 100);
+        const green = Math.min(value * 0.3);
+        const blue = Math.min(value * 0.2);
+
+        ctx.fillStyle = `rgb(${red}, ${green}, ${blue})`;
+        ctx.fillRect(x, canvas.height - barHeight, barWidth - 1, barHeight);
       });
-    }
 
     window.addEventListener('click', () => {
       if (music.muted) {
