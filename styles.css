@@ -6,11 +6,12 @@
 
 html, body {
   height: 100%;
-  font-family: 'Segoe UI', sans-serif;
+  font-family: 'Orbitron', sans-serif;
   background: black;
   overflow: hidden;
 }
 
+/* Image de fond */
 .bg-image {
   background-image: url('Vidéos/video.jpg');
   background-size: cover;
@@ -20,6 +21,13 @@ html, body {
   height: 100%;
   z-index: -1;
   filter: brightness(0.4);
+  animation: zoom 30s infinite alternate ease-in-out;
+}
+
+/* Animation zoom lent */
+@keyframes zoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
 }
 
 /* Carte centrale */
@@ -38,6 +46,13 @@ html, body {
   width: 90%;
   max-width: 400px;
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, -60%); }
+  to { opacity: 1; transform: translate(-50%, -50%); }
 }
 
 .card h1 {

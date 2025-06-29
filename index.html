@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Worlcat</title>
-  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
@@ -24,10 +25,19 @@
   </div>
 
   <!-- Musique de fond -->
-  <audio id="bg-music" autoplay loop>
-    <source src="Audio/musique.mp3" type="audio/mp3">
-    Ton navigateur ne supporte pas l’audio.
+  <audio id="bg-music" autoplay loop muted>
+    <source src="Audio/musique.mp3" type="audio/mp3" />
+    Ton navigateur ne supporte pas l'audio.
   </audio>
+
+  <!-- Script pour autoriser la lecture après clic -->
+  <script>
+    const music = document.getElementById('bg-music');
+    window.addEventListener('click', () => {
+      music.muted = false;
+      music.play().catch(() => {}); // ignore les erreurs silencieuses
+    });
+  </script>
 
 </body>
 </html>
