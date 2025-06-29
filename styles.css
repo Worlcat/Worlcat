@@ -13,7 +13,7 @@ html, body {
 }
 
 .bg-image {
-  background-image: url('Vidéos/video.jpg');
+  background-image: url('Videos/video.jpg');
   background-size: cover;
   background-position: center;
   position: fixed;
